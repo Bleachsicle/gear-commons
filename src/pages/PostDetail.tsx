@@ -10,42 +10,9 @@ import { Badge } from "@/components/ui/badge";
 const PostDetail = () => {
   const { id } = useParams();
 
-  const post = {
-    id: "1",
-    title: "WTS: Eotech EXPS3-0 in excellent condition",
-    content: "Selling my Eotech EXPS3-0. Barely used, maybe 200 rounds through it. Comes with original box and documentation. Looking for $550 shipped. Can provide more photos upon request.\n\nThis optic has been mounted on my AR but has seen minimal use at the range. Glass is crystal clear, no scratches or blemishes. Battery compartment functions perfectly. I'm upgrading to a different optic system for my setup, hence the sale.\n\nPayment via PayPal G&S. Shipping included in price. Will ship within 24 hours of payment.",
-    author: "tactical_trader",
-    category: "Optics",
-    votes: 47,
-    timestamp: "3 hours ago",
-    userVote: null,
-  };
-
-  const comments = [
-    {
-      author: "OpticsFan",
-      content: "Great optic! I have the same one and it's been rock solid. GLWS!",
-      votes: 12,
-      timestamp: "2 hours ago",
-      userVote: null,
-    },
-    {
-      author: "AR_Builder_23",
-      content: "Do you have pictures of the glass clarity? And what's the manufacture date?",
-      votes: 8,
-      timestamp: "2 hours ago",
-      replies: 1,
-      userVote: null,
-    },
-    {
-      author: "NewShooter",
-      content: "Is this a good optic for someone just getting into red dots? Been looking at these vs Holosun.",
-      votes: 5,
-      timestamp: "1 hour ago",
-      replies: 2,
-      userVote: null,
-    },
-  ];
+  // Post and comments data will be loaded from backend
+  const post = null;
+  const comments = [];
 
   return (
     <div className="min-h-screen bg-background">

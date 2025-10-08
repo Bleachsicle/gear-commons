@@ -1,26 +1,65 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Plus, TrendingUp, Clock, Flame } from "lucide-react";
+import { TrendingUp, Clock, Flame } from "lucide-react";
 import Header from "@/components/Header";
 import PostCard from "@/components/PostCard";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-const mockPosts: Array<{
-  id: string;
-  title: string;
-  content: string;
-  author: string;
-  category: string;
-  votes: number;
-  commentCount: number;
-  views: number;
-  timestamp: string;
-  userVote: "up" | "down" | null;
-}> = [];
+import { supabase } from "@/integrations/supabase/client";
+import { CreatePostDialog } from "@/components/CreatePostDialog";
 
 const Index = () => {
   const [sortBy, setSortBy] = useState("trending");
+  const [posts, setPosts] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchPosts = async () => {
+    setIsLoading(true);
+    
+    let query = supabase
+      .from("posts")
+      .select(`
+        *,
+        profiles!posts_user_id_fkey(username),
+        votes(vote_type),
+        comments(count)
+      `);
+
+    if (sortBy === "new") {
+      query = query.order("created_at", { ascending: false });
+    } else if (sortBy === "top") {
+      query = query.order("views", { ascending: false });
+    }
+
+    const { data, error } = await query;
+
+    if (!error && data) {
+      const formattedPosts = data.map((post: any) => {
+        const upvotes = post.votes?.filter((v: any) => v.vote_type === "up").length || 0;
+        const downvotes = post.votes?.filter((v: any) => v.vote_type === "down").length || 0;
+        
+        return {
+          id: post.id,
+          title: post.title,
+          content: post.content,
+          author: post.profiles?.username || "Unknown",
+          category: post.category,
+          votes: upvotes - downvotes,
+          commentCount: post.comments?.[0]?.count || 0,
+          views: post.views,
+          timestamp: new Date(post.created_at).toLocaleString(),
+          userVote: null,
+        };
+      });
+      setPosts(formattedPosts);
+    }
+
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, [sortBy]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -48,16 +87,19 @@ const Index = () => {
                 </TabsList>
               </Tabs>
               
-              <Button className="gap-2">
-                <Plus className="h-4 w-4" />
-                <span className="hidden sm:inline">Create Post</span>
-              </Button>
+              <CreatePostDialog onPostCreated={fetchPosts} />
             </div>
 
             <div className="space-y-4">
-              {mockPosts.map((post) => (
-                <PostCard key={post.id} {...post} />
-              ))}
+              {isLoading ? (
+                <div className="text-center py-8 text-muted-foreground">Loading posts...</div>
+              ) : posts.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">No posts yet. Be the first to create one!</div>
+              ) : (
+                posts.map((post) => (
+                  <PostCard key={post.id} {...post} />
+                ))
+              )}
             </div>
           </div>
 

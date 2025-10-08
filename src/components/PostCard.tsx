@@ -35,7 +35,7 @@ const PostCard = ({
   return (
     <div className="group bg-card rounded-lg border border-border hover:border-primary/50 transition-all hover-lift overflow-hidden">
       <div className="flex gap-3 p-4">
-        <VoteButtons votes={votes} userVote={userVote} />
+        <VoteButtons postId={id} votes={votes} userVote={userVote} />
         
         <div className="flex-1 min-w-0">
           <div className="flex items-start gap-3">

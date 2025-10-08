@@ -57,6 +57,26 @@ const Auth = () => {
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Signup form submitted");
+    console.log("Email:", email, "Username:", username, "Password length:", password.length);
+
+    if (!email || !username || !password || !confirmPassword) {
+      toast({
+        title: "Error",
+        description: "Please fill in all fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (password.length < 6) {
+      toast({
+        title: "Error",
+        description: "Password must be at least 6 characters long",
+        variant: "destructive",
+      });
+      return;
+    }
 
     if (password !== confirmPassword) {
       toast({
@@ -68,39 +88,52 @@ const Auth = () => {
     }
 
     setIsLoading(true);
+    console.log("Starting signup process...");
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          username,
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            username,
+          },
+          emailRedirectTo: `${window.location.origin}/`,
         },
-        emailRedirectTo: `${window.location.origin}/`,
-      },
-    });
+      });
 
-    if (error) {
-      console.error("Signup error:", error);
+      console.log("Signup response:", { data, error });
+
+      if (error) {
+        console.error("Signup error:", error);
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      toast({
+        title: "Success",
+        description: "Account created successfully! You can now log in.",
+      });
+      
+      // Clear form
+      setEmail("");
+      setPassword("");
+      setUsername("");
+      setConfirmPassword("");
+    } catch (err) {
+      console.error("Unexpected error:", err);
       toast({
         title: "Error",
-        description: error.message,
+        description: "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });
-      setIsLoading(false);
-      return;
     }
-
-    toast({
-      title: "Success",
-      description: "Account created successfully! You can now log in.",
-    });
     
-    // Clear form
-    setEmail("");
-    setPassword("");
-    setUsername("");
-    setConfirmPassword("");
     setIsLoading(false);
   };
 

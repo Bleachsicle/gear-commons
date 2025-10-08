@@ -11,20 +11,6 @@ const categories = [
     posts: 1234,
   },
   {
-    name: "Gear Reviews",
-    description: "Honest reviews of optics, lights, and accessories",
-    icon: Target,
-    color: "text-primary",
-    posts: 856,
-  },
-  {
-    name: "Legal Transfers",
-    description: "Discuss FFL transfers, NFA items, and legal compliance",
-    icon: ShieldCheck,
-    color: "text-primary",
-    posts: 423,
-  },
-  {
     name: "WTS/WTB",
     description: "Want to sell or buy? List your items here",
     icon: Scale,

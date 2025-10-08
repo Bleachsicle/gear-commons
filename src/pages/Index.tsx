@@ -91,17 +91,12 @@ const Index = () => {
                 </Link>
                 <Link to="/categories">
                   <Button variant="ghost" className="w-full justify-start">
-                    Gear Reviews
-                  </Button>
-                </Link>
-                <Link to="/categories">
-                  <Button variant="ghost" className="w-full justify-start">
-                    Legal Transfers
-                  </Button>
-                </Link>
-                <Link to="/categories">
-                  <Button variant="ghost" className="w-full justify-start">
                     WTS/WTB
+                  </Button>
+                </Link>
+                <Link to="/categories">
+                  <Button variant="ghost" className="w-full justify-start">
+                    Off-Topic
                   </Button>
                 </Link>
               </div>

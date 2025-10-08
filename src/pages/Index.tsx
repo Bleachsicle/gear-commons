@@ -64,24 +64,6 @@ const Index = () => {
           {/* Sidebar */}
           <aside className="w-full md:w-80 space-y-4">
             <div className="bg-card rounded-lg border border-border p-4">
-              <h3 className="text-lg font-semibold mb-3">About Community</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                The new home for gear talk, builds, and community — all legal, all in one place.
-              </p>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Members</span>
-                  <span className="font-semibold">12.4k</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Online</span>
-                  <span className="font-semibold text-primary">847</span>
-                </div>
-              </div>
-              <Button className="w-full mt-4">Join Community</Button>
-            </div>
-
-            <div className="bg-card rounded-lg border border-border p-4">
               <h3 className="text-lg font-semibold mb-3">Popular Categories</h3>
               <div className="space-y-2">
                 <Link to="/categories">

@@ -37,19 +37,21 @@ const Auth = () => {
     });
 
     if (error) {
+      console.error("Login error:", error);
       toast({
         title: "Error",
         description: error.message,
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "Success",
-        description: "Logged in successfully!",
-      });
-      navigate("/");
+      setIsLoading(false);
+      return;
     }
 
+    toast({
+      title: "Success",
+      description: "Logged in successfully!",
+    });
+    navigate("/");
     setIsLoading(false);
   };
 
@@ -79,19 +81,26 @@ const Auth = () => {
     });
 
     if (error) {
+      console.error("Signup error:", error);
       toast({
         title: "Error",
         description: error.message,
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "Success",
-        description: "Account created successfully!",
-      });
-      navigate("/");
+      setIsLoading(false);
+      return;
     }
 
+    toast({
+      title: "Success",
+      description: "Account created successfully! You can now log in.",
+    });
+    
+    // Clear form
+    setEmail("");
+    setPassword("");
+    setUsername("");
+    setConfirmPassword("");
     setIsLoading(false);
   };
 
